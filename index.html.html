@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.90);
+            padding: 30px;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            z-index: 10; 
+            max-width: 90%;
+            width: 350px; 
+            backdrop-filter: blur(5px);
+            border: 2px solid #fff;
+            min-height: 470px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        .slide.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .main-image {
+            width: 180px;
+            height: auto;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            animation: floatImage 3s ease-in-out infinite;
+        }
+
+        h1 {
+            color: #d81b60;
+            font-size: 1.6em;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        p {
+            color: #880e4f;
+            font-size: 1.1em;
+            margin-top: 10px;
+        }
+
+        /* --- Cursive & Bold for Last Slide --- */
+        #slide3 h1 {
+            font-family: 'Dancing Script', cursive;
+            font-weight: 700;
+            font-size: 2.2em;
+        }
+
+        #slide3 p {
+            font-family: 'Dancing Script', cursive;
+            font-weight: 700;
+            font-size: 1.4em;
+            line-height: 1.4;
+        }
+
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+        }
+
+        button {
+            background-color: #ff4081;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            text-align: center;
+            font-size: 14px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+            width: 100%;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #f50057;
+            transform: scale(1.05);
+        }
+
+        @keyframes floatImage {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .emoji {
+            position: absolute;
+            bottom: -50px;
+            font-size: 24px;
+            animation: rise 10s linear infinite;
+            z-index: 1;
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        @keyframes rise {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        
+        <div class="slide active" id="slide1">
+            <img src="https://i.pinimg.com/originals/85/56/7b/85567bb225cd54848400b62645c932c8.jpg" alt="Sticker 1" class="main-image">
+            <h1>Will you be my Valentine?</h1>
+            <div class="btn-container">
+                <button onclick="nextSlide()">A) Yes</button>
+                <button onclick="nextSlide()">B) Option A</button>
+            </div>
+        </div>
+
+        <div class="slide" id="slide2">
+            <img src="https://i.pinimg.com/originals/9f/4b/ed/9f4bed0f2d67a88365a12eef85647b06.jpg" alt="Sticker 2" class="main-image">
+            <h1>Are you sure Anushka?</h1>
+            <div class="btn-container">
+                <button onclick="nextSlide()">A) Yes</button>
+                <button onclick="nextSlide()">B) Option A)</button>
+                <button onclick="nextSlide()">C) Both A) and B)</button>
+                <button onclick="nextSlide()">D) All of the above</button>
+            </div>
+        </div>
+
+        <div class="slide" id="slide3">
+            <img src="https://i.pinimg.com/originals/41/fa/6a/41fa6a760822ff93bfe43fa2b1d3cf07.jpg" alt="Final Valentine Image" class="main-image">
+            <h1>Happy Valentine's Day Puwaliiiii!</h1>
+            <p>Sending you lots of love and hugs thank you for always being with me and forgiving me in every situation, I Loveee youuuuuuuuuuuuuu. 💖</p>
+        </div>
+
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 3;
+
+        function nextSlide() {
+            const currentElement = document.getElementById(`slide${currentSlide}`);
+            if(currentElement) {
+                currentElement.classList.remove('active');
+            }
+            
+            currentSlide++;
+            
+            if (currentSlide > totalSlides) {
+                currentSlide = totalSlides;
+            }
+
+            const nextElement = document.getElementById(`slide${currentSlide}`);
+            if(nextElement) {
+                nextElement.classList.add('active');
+            }
+
+            // Trigger Confetti on slide 3
+            if (currentSlide === 3) {
+                triggerConfetti();
+            }
+        }
+
+        function triggerConfetti() {
+            const duration = 5 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+            function randomInRange(min, max) {
+              return Math.random() * (max - min) + min;
+            }
+
+            const interval = setInterval(function() {
+              const timeLeft = animationEnd - Date.now();
+
+              if (timeLeft <= 0) {
+                return clearInterval(interval);
+              }
+
+              const particleCount = 50 * (timeLeft / duration);
+              confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+              confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
+        }
+
+        function createEmoji() {
+            const emojis = ['❤️', '💖', '💕', '🌹', '🥰', '💌', '💘', '🧸', '💟', '💝', '💗', '💓', '🩶', '❤️‍🩹', '❤️‍🔥', '😍', '😘'];
+            const emoji = document.createElement('div');
+            emoji.classList.add('emoji');
+            emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+            emoji.style.left = Math.random() * 100 + 'vw';
+            emoji.style.fontSize = Math.random() * 20 + 20 + 'px'; 
+            emoji.style.animationDuration = Math.random() * 3 + 4 + 's'; 
+            document.body.appendChild(emoji);
+            setTimeout(() => emoji.remove(), 5000);
+        }
+        setInterval(createEmoji, 150);
+    </script>
+
+</body>
+</html>
